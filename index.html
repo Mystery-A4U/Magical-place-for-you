@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
 <meta name="theme-color" content="#0b0708" />
 <title>for you</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
@@ -13,889 +14,1770 @@
 />
 
 <style>
-  /* ══════════════════════════════════════════════════════════════════
-     DESIGN TOKENS — edit colors/fonts here, everything below uses these.
-     ══════════════════════════════════════════════════════════════════ */
-  :root {
-    --blush-pale: #FDF1F0;   /* initial almost-white background */
-    --rose-liquid: #E1476A;  /* primary liquid pink */
-    --rose-deep: #B22F4E;    /* shadow / depth of the liquid */
-    --rose-highlight: #FFD9DE; /* glossy highlight on droplets */
-    --ink-black: #0B0708;    /* warm cinematic black, never pure #000 */
-    --warm-white: #FBEAE7;   /* text on black */
-    --font-display: 'Cormorant Garamond', serif;
-    --font-body: 'Jost', sans-serif;
-  }
+:root {
+  --blush-pale: #FDF1F0;
+  --rose-liquid: #E1476A;
+  --rose-deep: #B22F4E;
+  --rose-highlight: #FFD9DE;
+  --ink-black: #0B0708;
+  --warm-white: #FBEAE7;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Jost', sans-serif;
+}
 
-  * { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-  html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    overscroll-behavior: none;
-    background: var(--blush-pale);
-    font-family: var(--font-body);
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--blush-pale);
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
 
-  .stage {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100svh;
-    height: 100dvh;
-    overflow: hidden;
-    display: none;
-  }
-  .stage.active { display: block; }
+.stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  overflow: hidden;
+  display: none;
+}
 
-  /* ── SCENE 1 — liquid intro ─────────────────────────────────────── */
-  #stage-intro { background: var(--blush-pale); }
+.stage.active {
+  display: block;
+}
 
-  #goo-layer {
-    position: absolute;
-    inset: 0;
-    filter: url(#goo-filter);
-  }
+/* INTRO */
 
-  .droplet {
-    position: absolute;
-    top: 0;
-    border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%, var(--rose-highlight), var(--rose-liquid) 45%, var(--rose-deep) 100%);
-    will-change: transform;
-  }
+#stage-intro {
+  background: var(--blush-pale);
+}
 
-  .flood {
-    position: absolute;
-    left: 50%;
-    top: 58%;
-    width: 40px;
-    height: 40px;
-    margin-left: -20px;
-    margin-top: -20px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%, var(--rose-highlight), var(--rose-liquid) 45%, var(--rose-deep) 100%);
-    transform: scale(0);
-    will-change: transform;
-  }
+#goo-layer {
+  position: absolute;
+  inset: 0;
+  filter: url(#goo-filter);
+}
 
-  .backstop {
-    position: absolute;
-    inset: 0;
-    background: var(--rose-liquid);
+.droplet {
+  position: absolute;
+  top: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      var(--rose-highlight),
+      var(--rose-liquid) 45%,
+      var(--rose-deep) 100%
+    );
+  will-change: transform;
+}
+
+.flood {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      var(--rose-highlight),
+      var(--rose-liquid) 45%,
+      var(--rose-deep) 100%
+    );
+  transform: scale(0);
+}
+
+.backstop {
+  position: absolute;
+  inset: 0;
+  background: var(--rose-liquid);
+  opacity: 0;
+}
+
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sheen.a {
+  background:
+    radial-gradient(
+      circle at 28% 18%,
+      rgba(255,255,255,0.38),
+      transparent 46%
+    );
+}
+
+.sheen.b {
+  background:
+    radial-gradient(
+      circle at 72% 82%,
+      rgba(178,47,78,0.35),
+      transparent 40%
+    );
+  opacity: 0.6;
+}
+
+/* SPLASH */
+
+#splash-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.splat {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      var(--rose-highlight),
+      var(--rose-liquid) 50%,
+      var(--rose-deep) 100%
+    );
+  opacity: 0;
+}
+
+.splat-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 46% 54% 58% 42% / 52% 44% 56% 48%;
+  background:
+    radial-gradient(
+      circle at 34% 30%,
+      var(--rose-highlight),
+      var(--rose-liquid) 55%,
+      var(--rose-deep) 100%
+    );
+  transform: scale(0);
+  opacity: 0;
+}
+
+/* PASSWORD */
+
+#stage-password {
+  background: var(--rose-liquid);
+  transition: background-color 1.25s ease-in-out;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#stage-password.active {
+  display: flex;
+}
+
+#stage-password.unlocking {
+  background-color: var(--ink-black);
+}
+
+.particle {
+  position: absolute;
+  bottom: -5%;
+  border-radius: 50%;
+  background: rgba(251,234,231,0.7);
+  pointer-events: none;
+  animation: float-particle linear infinite;
+}
+
+@keyframes float-particle {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
     opacity: 0;
   }
 
-  .sheen {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-  .sheen.a { background: radial-gradient(circle at 28% 18%, rgba(255,255,255,0.38), transparent 46%); mix-blend-mode: screen; }
-  .sheen.b { background: radial-gradient(circle at 72% 82%, rgba(178,47,78,0.35), transparent 40%); opacity: 0.6; }
-
-  /* ── paint-splash burst — the very first thing the intro shows ──── */
-  #splash-layer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-  .splat {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%, var(--rose-highlight), var(--rose-liquid) 50%, var(--rose-deep) 100%);
-    opacity: 0;
-    will-change: transform, opacity;
-  }
-  .splat-core {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 26px;
-    height: 26px;
-    margin: -13px 0 0 -13px;
-    border-radius: 46% 54% 58% 42% / 52% 44% 56% 48%;
-    background: radial-gradient(circle at 34% 30%, var(--rose-highlight), var(--rose-liquid) 55%, var(--rose-deep) 100%);
-    transform: scale(0);
-    opacity: 0;
-  }
-
-  /* ── SCENE 2 — password ────────────────────────────────────────── */
-  #stage-password {
-    background: var(--rose-liquid);
-    transition: background-color 1.25s ease-in-out;
-    display: none;
-    align-items: center;
-    justify-content: center;
-  }
-  #stage-password.active { display: flex; }
-  #stage-password.unlocking { background-color: var(--ink-black); }
-
-  .particle {
-    position: absolute;
-    bottom: -5%;
-    border-radius: 50%;
-    background: rgba(251, 234, 231, 0.7);
-    pointer-events: none;
-    animation: float-particle linear infinite;
-  }
-  @keyframes float-particle {
-    0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { transform: translateY(-120px) translateX(var(--drift, 10px)) scale(0.6); opacity: 0; }
-  }
-
-  .password-card {
-    position: relative;
-    z-index: 2;
-    width: 88%;
-    max-width: 360px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    padding: 2.5rem 1.75rem;
-    border-radius: 28px;
-    border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.1);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 8px 60px rgba(0,0,0,0.18);
-    text-align: center;
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out;
-  }
-  .password-card.in { opacity: 1; transform: translateY(0); }
-  .password-card.dissolving { opacity: 0; filter: blur(14px); transform: scale(0.96); }
-
-  .eyebrow {
-    margin: 0;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.35em;
-    color: rgba(251, 234, 231, 0.8);
-  }
-  .headline {
-    margin: 0.5rem 0 0;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 1.85rem;
-    color: #fff;
-  }
-  .rose-emoji { display: block; margin-top: 0.5rem; font-size: 1.5rem; }
-
-  .digits-wrap { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-  #birthday-input {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: text;
-  }
-  .digit-boxes { display: flex; gap: 0.75rem; }
-  .digit-box {
-    width: 44px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.35);
-    background: rgba(255,255,255,0.1);
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    color: #fff;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  .digit-box.filled { border-color: rgba(255,255,255,0.8); }
-  .digit-boxes.wrong .digit-box {
-    border-color: rgba(255,217,222,0.9);
-    box-shadow: 0 0 16px rgba(255,120,140,0.65);
-  }
-  .digit-boxes.correct .digit-box,
-  .digit-boxes.unlocking .digit-box {
-    border-color: var(--warm-white);
-    box-shadow: 0 0 20px rgba(255,255,255,0.55);
-  }
-  .digit-boxes.shake { animation: shake 0.55s ease-in-out; }
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-10px); }
-    40% { transform: translateX(10px); }
-    60% { transform: translateX(-8px); }
-    80% { transform: translateX(8px); }
-    90% { transform: translateX(-4px); }
-  }
-  .hint {
-    margin: 0;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: rgba(251, 234, 231, 0.7);
-  }
-
-  /* ── SCENE bridge — brief guaranteed black frame ───────────────── */
-  #stage-transition { background: var(--ink-black); }
-
-  /* ── SCENE 3+4 — video + final message ─────────────────────────── */
-  #stage-video { background: var(--ink-black); }
-  #rose-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 1.1s ease-in-out;
-  }
-  #rose-video.visible { opacity: 1; }
-
-  .video-glow {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at 50% 60%, rgba(225,71,106,0.18), transparent 55%),
-      radial-gradient(circle at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
-  }
-
-  #final-message {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.1rem;
-    padding: 0 2rem;
-    text-align: center;
-  }
-  .final-heart {
-    font-size: 2.1rem;
-    opacity: 0;
-    transform: scale(0.3);
-    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(.34,1.56,.64,1);
-    filter: drop-shadow(0 0 16px rgba(225,71,106,0.55));
-  }
-  .final-heart.visible {
+  10% {
     opacity: 1;
-    transform: scale(1);
-    animation: heartbeat 1.4s ease-in-out 0.8s infinite;
-  }
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    20% { transform: scale(1.18); }
-    35% { transform: scale(0.96); }
-    50% { transform: scale(1.1); }
-    65% { transform: scale(1); }
-  }
-  .final-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.9rem;
-  }
-  .final-wrap p {
-    margin: 0;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 1.4s ease-out, transform 1.4s ease-out;
-  }
-  .final-wrap p.visible { opacity: 1; transform: translateY(0); }
-  .final-line {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 1.5rem;
-    color: var(--warm-white);
-    filter: drop-shadow(0 0 18px rgba(225,71,106,0.35));
-  }
-  .final-proposal {
-    margin-top: 0.5rem;
-    max-width: 280px;
-    font-size: 0.9rem;
-    letter-spacing: 0.02em;
-    color: rgba(251, 234, 231, 0.85);
-    transition-duration: 1.6s !important;
-  }
-  .final-attract {
-    margin-top: 0.15rem;
-    max-width: 300px;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 1.15rem;
-    color: var(--rose-highlight);
-    transition-duration: 1.6s !important;
   }
 
-  .next-btn {
-    margin-top: 1.6rem;
-    padding: 0.85rem 2.4rem;
-    border: none;
-    border-radius: 999px;
-    background: linear-gradient(135deg, var(--rose-liquid), var(--rose-deep));
-    color: var(--warm-white);
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    letter-spacing: 0.06em;
-    cursor: pointer;
-    box-shadow: 0 8px 30px rgba(225,71,106,0.45);
-    opacity: 0;
-    transform: translateY(10px) scale(0.96);
-    transition: opacity 1.2s ease-out, transform 1.2s ease-out, box-shadow 0.3s, background 0.3s;
-  }
-  .next-btn.visible { opacity: 1; transform: translateY(0) scale(1); }
-  .next-btn:active { transform: scale(0.94); box-shadow: 0 4px 16px rgba(225,71,106,0.4); }
-
-  @media (min-width: 480px) {
-    .final-line { font-size: 1.9rem; }
-    .final-proposal { font-size: 1rem; }
-    .final-attract { font-size: 1.35rem; }
-  }
-
-  /* ── SCENE 5 — chat invite ─────────────────────────────────────── */
-  #stage-chat {
-    background: var(--ink-black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  #stage-chat.active { display: flex; }
-  .chat-glow {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(circle at 50% 40%, rgba(225,71,106,0.22), transparent 60%);
-  }
-  .chat-card {
-    position: relative;
-    z-index: 2;
-    width: 88%;
-    max-width: 360px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.8rem;
-    padding: 2.5rem 1.75rem;
-    border-radius: 28px;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.06);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 8px 60px rgba(0,0,0,0.4);
-    text-align: center;
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
-  }
-  .chat-card.in { opacity: 1; transform: translateY(0); }
-
-  .chat-text {
-    margin: 0;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 1.35rem;
-    line-height: 1.5;
-    color: var(--warm-white);
-    transition: opacity 0.4s ease-out;
-  }
-  .chat-text.fade { opacity: 0; }
-
-  .chat-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    position: relative;
-  }
-  .btn-chat, .btn-exit {
-    padding: 0.75rem 1.9rem;
-    border-radius: 999px;
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: transform 0.25s ease-out, box-shadow 0.25s, opacity 0.25s, background 0.25s;
-  }
-  .btn-chat {
-    border: none;
-    background: linear-gradient(135deg, var(--rose-liquid), var(--rose-deep));
-    color: var(--warm-white);
-    box-shadow: 0 8px 26px rgba(225,71,106,0.5);
-  }
-  .btn-chat:active { transform: scale(0.94); }
-  .btn-exit {
-    border: 1px solid rgba(255,255,255,0.3);
-    background: transparent;
-    color: rgba(251, 234, 231, 0.75);
-    transform-origin: center;
-  }
-  .btn-exit:active { transform: scale(0.94); }
-
-  .hand-pointer {
-    position: absolute;
-    right: -6px;
-    bottom: -46px;
-    font-size: 1.6rem;
-    opacity: 0;
-    transform: translateX(10px) rotate(-18deg);
-    transition: opacity 0.5s ease-out;
-    pointer-events: none;
-  }
-  .hand-pointer.visible {
+  90% {
     opacity: 1;
-    animation: point-nudge 1.1s ease-in-out infinite;
-  }
-  @keyframes point-nudge {
-    0%, 100% { transform: translateX(0) rotate(-18deg); }
-    50% { transform: translateX(-8px) rotate(-18deg); }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.2s !important;
-      animation-iteration-count: 1 !important;
-    }
+  100% {
+    transform:
+      translateY(-120px)
+      translateX(var(--drift,10px))
+      scale(0.6);
+    opacity: 0;
   }
+}
+
+.password-card {
+  position: relative;
+  z-index: 2;
+  width: 88%;
+  max-width: 360px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 2rem;
+  padding: 2.5rem 1.75rem;
+
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,0.25);
+
+  background: rgba(255,255,255,0.1);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow: 0 8px 60px rgba(0,0,0,0.18);
+
+  text-align: center;
+
+  opacity: 0;
+  transform: translateY(18px);
+
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out,
+    filter 0.7s ease-out;
+}
+
+.password-card.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.password-card.dissolving {
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(0.96);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: rgba(251,234,231,0.8);
+}
+
+.headline {
+  margin: 0.5rem 0 0;
+
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.85rem;
+
+  color: white;
+}
+
+.rose-emoji {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.digits-wrap {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 1rem;
+}
+
+#birthday-input {
+  position: absolute;
+  inset: 0;
+
+  z-index: 3;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+  cursor: text;
+}
+
+.digit-boxes {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.digit-box {
+  width: 44px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.1);
+
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+
+  color: white;
+
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.digit-box.filled {
+  border-color: rgba(255,255,255,0.8);
+}
+
+.digit-boxes.wrong .digit-box {
+  border-color: rgba(255,217,222,0.9);
+  box-shadow: 0 0 16px rgba(255,120,140,0.65);
+}
+
+.digit-boxes.correct .digit-box,
+.digit-boxes.unlocking .digit-box {
+  border-color: var(--warm-white);
+  box-shadow: 0 0 20px rgba(255,255,255,0.55);
+}
+
+.digit-boxes.shake {
+  animation: shake 0.55s ease-in-out;
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+  90% { transform: translateX(-4px); }
+}
+
+.hint {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(251,234,231,0.7);
+}
+
+/* TRANSITION */
+
+#stage-transition {
+  background: var(--ink-black);
+}
+
+/* VIDEO */
+
+#stage-video {
+  background: var(--ink-black);
+}
+
+#rose-video {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  opacity: 0;
+
+  transition: opacity 1.1s ease-in-out;
+}
+
+#rose-video.visible {
+  opacity: 1;
+}
+
+.video-glow {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 50% 60%,
+      rgba(225,71,106,0.18),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 55%,
+      rgba(0,0,0,0.55) 100%
+    );
+}
+
+#final-message {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1.1rem;
+  padding: 0 2rem;
+
+  text-align: center;
+}
+
+.final-heart {
+  font-size: 2.1rem;
+
+  opacity: 0;
+  transform: scale(0.3);
+
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s cubic-bezier(.34,1.56,.64,1);
+}
+
+.final-heart.visible {
+  opacity: 1;
+  transform: scale(1);
+
+  animation: heartbeat 1.4s ease-in-out 0.8s infinite;
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  20% { transform: scale(1.18); }
+  35% { transform: scale(0.96); }
+  50% { transform: scale(1.1); }
+  65% { transform: scale(1); }
+}
+
+.final-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.final-wrap p {
+  margin: 0;
+
+  opacity: 0;
+  transform: translateY(10px);
+
+  transition:
+    opacity 1.4s ease-out,
+    transform 1.4s ease-out;
+}
+
+.final-wrap p.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.final-line {
+  font-family: var(--font-display);
+  font-style: italic;
+
+  font-size: 1.5rem;
+
+  color: var(--warm-white);
+}
+
+.final-proposal {
+  margin-top: 0.5rem;
+  max-width: 280px;
+
+  font-size: 0.9rem;
+
+  color: rgba(251,234,231,0.85);
+}
+
+.final-attract {
+  margin-top: 0.15rem;
+  max-width: 300px;
+
+  font-family: var(--font-display);
+  font-style: italic;
+
+  font-size: 1.15rem;
+
+  color: var(--rose-highlight);
+}
+
+.next-btn {
+  margin-top: 1.6rem;
+  padding: 0.85rem 2.4rem;
+
+  border: none;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--rose-liquid),
+      var(--rose-deep)
+    );
+
+  color: var(--warm-white);
+
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+
+  cursor: pointer;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+
+  transition:
+    opacity 1.2s ease-out,
+    transform 1.2s ease-out;
+}
+
+.next-btn.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* CHAT — FIXED */
+
+#stage-chat {
+  background: var(--ink-black);
+
+  /* IMPORTANT: Hidden initially */
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+}
+
+#stage-chat.active {
+  display: flex;
+}
+
+.chat-glow {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(225,71,106,0.22),
+      transparent 60%
+    );
+}
+
+.chat-card {
+  position: relative;
+  z-index: 2;
+
+  width: 88%;
+  max-width: 360px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 1.8rem;
+
+  padding: 2.5rem 1.75rem;
+
+  border-radius: 28px;
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  background: rgba(255,255,255,0.06);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  text-align: center;
+
+  opacity: 0;
+  transform: translateY(18px);
+
+  transition:
+    opacity 0.9s ease-out,
+    transform 0.9s ease-out;
+}
+
+.chat-card.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chat-text {
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-style: italic;
+
+  font-size: 1.35rem;
+  line-height: 1.5;
+
+  color: var(--warm-white);
+}
+
+.chat-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1rem;
+}
+
+.btn-chat,
+.btn-exit {
+  padding: 0.75rem 1.9rem;
+
+  border-radius: 999px;
+
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+
+  cursor: pointer;
+}
+
+.btn-chat {
+  border: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--rose-liquid),
+      var(--rose-deep)
+    );
+
+  color: var(--warm-white);
+}
+
+.btn-exit {
+  border: 1px solid rgba(255,255,255,0.3);
+
+  background: transparent;
+
+  color: rgba(251,234,231,0.75);
+
+  transition: transform 0.25s ease-out;
+}
+
+.hand-pointer {
+  position: absolute;
+
+  right: -6px;
+  bottom: -46px;
+
+  font-size: 1.6rem;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.hand-pointer.visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.2s !important;
+    animation-iteration-count: 1 !important;
+  }
+}
 </style>
 </head>
+
 <body>
 
-  <!-- Hidden SVG filter powering the liquid "goo" merge effect -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <filter id="goo-filter" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
-      <feColorMatrix in="blur" mode="matrix"
-        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -11" result="goo" />
-      <feBlend in="SourceGraphic" in2="goo" />
-    </filter>
-  </svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="goo-filter" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur
+      in="SourceGraphic"
+      stdDeviation="9"
+      result="blur"
+    />
 
-  <!-- SCENE 1 — liquid rose-pink intro -->
-  <div class="stage active" id="stage-intro" aria-hidden="true">
-    <div id="splash-layer"></div>
-    <div id="goo-layer"></div>
-    <div class="backstop" id="backstop"></div>
-    <div class="sheen a"></div>
-    <div class="sheen b"></div>
-  </div>
+    <feColorMatrix
+      in="blur"
+      mode="matrix"
+      values="
+      1 0 0 0 0
+      0 1 0 0 0
+      0 0 1 0 0
+      0 0 0 22 -11"
+      result="goo"
+    />
 
-  <!-- SCENE 2 — password -->
-  <div class="stage" id="stage-password">
-    <div id="particles"></div>
-    <div class="password-card" id="password-card">
-      <div>
-        <p class="eyebrow">Before you enter my world&hellip;</p>
-        <h1 class="headline">Enter your birthday</h1>
-        <span class="rose-emoji" aria-hidden="true">🌹</span>
-      </div>
-      <div class="digits-wrap">
-        <label for="birthday-input" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">
-          Enter the four digit day and month of your birthday
-        </label>
-        <input
-          id="birthday-input"
-          type="tel"
-          inputmode="numeric"
-          pattern="[0-9]*"
-          autocomplete="off"
-          maxlength="4"
-          aria-describedby="birthday-hint"
-        />
-        <div class="digit-boxes" id="digit-boxes">
-          <div class="digit-box"></div>
-          <div class="digit-box"></div>
-          <div class="digit-box"></div>
-          <div class="digit-box"></div>
-        </div>
-        <p class="hint" id="birthday-hint">DD&nbsp;&nbsp;MM</p>
-      </div>
+    <feBlend
+      in="SourceGraphic"
+      in2="goo"
+    />
+  </filter>
+</svg>
+
+<!-- INTRO -->
+
+<div class="stage active" id="stage-intro">
+  <div id="splash-layer"></div>
+  <div id="goo-layer"></div>
+  <div class="backstop" id="backstop"></div>
+  <div class="sheen a"></div>
+  <div class="sheen b"></div>
+</div>
+
+<!-- PASSWORD -->
+
+<div class="stage" id="stage-password">
+
+  <div id="particles"></div>
+
+  <div class="password-card" id="password-card">
+
+    <div>
+      <p class="eyebrow">
+        Before you enter my world…
+      </p>
+
+      <h1 class="headline">
+        Enter your birthday
+      </h1>
+
+      <span class="rose-emoji">🌹</span>
     </div>
-  </div>
 
-  <!-- Bridge — guaranteed black frame before the video -->
-  <div class="stage" id="stage-transition"></div>
+    <div class="digits-wrap">
 
-  <!-- SCENE 3 + 4 — video reveal + final message -->
-  <div class="stage" id="stage-video">
-    <!-- ✏️ EDIT ME: point this at your own file, same folder as this HTML
-         (or any relative/absolute path). -->
-    <video id="rose-video" muted playsinline preload="auto" src="videos/rose-bloom.mp4"></video>
-    <div class="video-glow"></div>
-    <div id="final-message">
-      <div class="final-heart" id="final-heart" aria-hidden="true">💗</div>
-      <div class="final-wrap">
-        <p class="final-line" id="final-line-1"></p>
-        <p class="final-line" id="final-line-2"></p>
-        <p class="final-attract" id="final-attract"></p>
-        <p class="final-proposal" id="final-proposal"></p>
+      <input
+        id="birthday-input"
+        type="tel"
+        inputmode="numeric"
+        maxlength="4"
+        autocomplete="off"
+      />
+
+      <div class="digit-boxes" id="digit-boxes">
+        <div class="digit-box"></div>
+        <div class="digit-box"></div>
+        <div class="digit-box"></div>
+        <div class="digit-box"></div>
       </div>
-      <button class="next-btn" id="next-btn" type="button">Next</button>
+
+      <p class="hint">DD MM</p>
+
     </div>
+
   </div>
 
-  <!-- SCENE 5 — chat invite -->
-  <div class="stage" id="stage-chat">
-    <div class="chat-glow"></div>
-    <div class="chat-card" id="chat-card">
-      <p class="chat-text" id="chat-text"></p>
-      <div class="chat-buttons">
-        <button class="btn-chat" id="btn-chat" type="button">Chat</button>
-        <button class="btn-exit" id="btn-exit" type="button">Exit</button>
-        <span class="hand-pointer" id="hand-pointer" aria-hidden="true">👉</span>
-      </div>
+</div>
+
+<!-- BLACK TRANSITION -->
+
+<div class="stage" id="stage-transition"></div>
+
+<!-- VIDEO -->
+
+<div class="stage" id="stage-video">
+
+  <video
+    id="rose-video"
+    muted
+    playsinline
+    preload="auto"
+    src="videos/rose-bloom.mp4">
+  </video>
+
+  <div class="video-glow"></div>
+
+  <div id="final-message">
+
+    <div class="final-heart" id="final-heart">
+      💗
     </div>
+
+    <div class="final-wrap">
+
+      <p
+        class="final-line"
+        id="final-line-1">
+      </p>
+
+      <p
+        class="final-line"
+        id="final-line-2">
+      </p>
+
+      <p
+        class="final-attract"
+        id="final-attract">
+      </p>
+
+      <p
+        class="final-proposal"
+        id="final-proposal">
+      </p>
+
+    </div>
+
+    <button
+      class="next-btn"
+      id="next-btn">
+      Next
+    </button>
+
   </div>
+
+</div>
+
+<!-- CHAT -->
+
+<div class="stage" id="stage-chat">
+
+  <div class="chat-glow"></div>
+
+  <div
+    class="chat-card"
+    id="chat-card">
+
+    <p
+      class="chat-text"
+      id="chat-text">
+    </p>
+
+    <div class="chat-buttons">
+
+      <button
+        class="btn-chat"
+        id="btn-chat">
+        Chat
+      </button>
+
+      <button
+        class="btn-exit"
+        id="btn-exit">
+        Exit
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 <script>
 (function () {
-  'use strict';
 
-  // ══════════════════════════════════════════════════════════════════
-  // ✏️ EDIT ME — the four things you'll actually want to change.
-  // ══════════════════════════════════════════════════════════════════
-  var BIRTHDAY_CODE = '3101';                 // DDMM, e.g. 3101 = 31 Jan
-  var VIDEO_SRC = 'videos/rose-bloom.mp4';     // path to your bloom video
-  var LINE_ONE = 'Some things are worth waiting for…';
-  var LINE_TWO = 'And you are one of them. 🌹';
-  var ATTRACT_LINE = 'Rose, you are the softest kind of chaos my heart ever fell for.';
-  var PROPOSAL_MESSAGE = 'I have something special to tell you…';
-  var CHAT_TEXT_DEFAULT = 'If you want to talk with me, message me — click chat below 💬';
-  var CHAT_TEXT_LEAVING = "Do you wanna go 🥹 Don't you like me?";
-  var INSTAGRAM_URL = 'https://www.instagram.com/unknown_me_6666?igsi=eDd4dXVjaGl5emEw';
-  // ══════════════════════════════════════════════════════════════════
+'use strict';
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* =========================
+   EDIT YOUR CONTENT HERE
+========================= */
 
-  var stages = {
-    intro: document.getElementById('stage-intro'),
-    password: document.getElementById('stage-password'),
-    transition: document.getElementById('stage-transition'),
-    video: document.getElementById('stage-video'),
-    chat: document.getElementById('stage-chat')
-  };
+var BIRTHDAY_CODE = '3101';
 
-  function showStage(name) {
-    Object.keys(stages).forEach(function (key) {
-      stages[key].classList.toggle('active', key === name);
+var VIDEO_SRC =
+  'videos/rose-bloom.mp4';
+
+var LINE_ONE =
+  'Some things are worth waiting for…';
+
+var LINE_TWO =
+  'And you are one of them. 🌹';
+
+var ATTRACT_LINE =
+  'Rose, you are the softest kind of chaos my heart ever fell for.';
+
+var PROPOSAL_MESSAGE =
+  'I have something special to tell you…';
+
+var CHAT_TEXT_DEFAULT =
+  'If you want to talk with me, message me — click chat below 💬';
+
+var CHAT_TEXT_LEAVING =
+  "Do you wanna go 🥹 Don't you like me?";
+
+var INSTAGRAM_URL =
+  'https://www.instagram.com/unknown_me_6666?igsi=eDd4dXVjaGl5emEw';
+
+
+var prefersReducedMotion =
+  window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+
+var stages = {
+
+  intro:
+    document.getElementById('stage-intro'),
+
+  password:
+    document.getElementById('stage-password'),
+
+  transition:
+    document.getElementById('stage-transition'),
+
+  video:
+    document.getElementById('stage-video'),
+
+  chat:
+    document.getElementById('stage-chat')
+
+};
+
+
+function showStage(name) {
+
+  Object.keys(stages)
+    .forEach(function (key) {
+
+      stages[key]
+        .classList
+        .toggle(
+          'active',
+          key === name
+        );
+
     });
-  }
 
-  // ── SCENE 1a — the very first frame: a pink paint splash impact ──
-  function runPaintSplash() {
-    var splashLayer = document.getElementById('splash-layer');
-    if (!splashLayer) return;
+}
 
-    var core = document.createElement('div');
-    core.className = 'splat-core';
-    splashLayer.appendChild(core);
-    core.animate(
+
+/* SPLASH */
+
+function runPaintSplash() {
+
+  var layer =
+    document.getElementById('splash-layer');
+
+  var core =
+    document.createElement('div');
+
+  core.className =
+    'splat-core';
+
+  layer.appendChild(core);
+
+  core.animate(
+    [
+      {
+        transform: 'scale(0)',
+        opacity: 0
+      },
+
+      {
+        transform: 'scale(1.15)',
+        opacity: 1
+      },
+
+      {
+        transform: 'scale(1)',
+        opacity: 1
+      }
+    ],
+    {
+      duration: 260,
+      fill: 'forwards'
+    }
+  );
+
+
+  for (
+    var i = 0;
+    i < 16;
+    i++
+  ) {
+
+    var angle =
+      (i / 16) *
+      Math.PI *
+      2;
+
+    var distance =
+      60 +
+      Math.random() * 170;
+
+    var size =
+      6 +
+      Math.random() * 20;
+
+    var dx =
+      Math.cos(angle) *
+      distance;
+
+    var dy =
+      Math.sin(angle) *
+      distance;
+
+
+    var s =
+      document.createElement('div');
+
+    s.className =
+      'splat';
+
+    s.style.width =
+      size + 'px';
+
+    s.style.height =
+      size + 'px';
+
+    s.style.marginLeft =
+      (-size / 2) +
+      'px';
+
+    s.style.marginTop =
+      (-size / 2) +
+      'px';
+
+    layer.appendChild(s);
+
+
+    s.animate(
       [
-        { transform: 'scale(0)', opacity: 0 },
-        { transform: 'scale(1.15)', opacity: 1, offset: 0.4 },
-        { transform: 'scale(1)', opacity: 1 }
+        {
+          transform:
+            'translate(0,0) scale(0.3)',
+          opacity: 0
+        },
+
+        {
+          transform:
+            'translate(' +
+            dx * 0.4 +
+            'px,' +
+            dy * 0.4 +
+            'px) scale(1)',
+
+          opacity: 1
+        },
+
+        {
+          transform:
+            'translate(' +
+            dx +
+            'px,' +
+            dy +
+            'px) scale(0.7)',
+
+          opacity: 0
+        }
       ],
-      { duration: 260, easing: 'cubic-bezier(.3,1.4,.5,1)', fill: 'forwards' }
+
+      {
+        duration: 620,
+        fill: 'forwards'
+      }
     );
 
-    var dropletCount = 16;
-    for (var i = 0; i < dropletCount; i++) {
-      var angle = (i / dropletCount) * Math.PI * 2 + Math.random() * 0.4;
-      var distance = 60 + Math.random() * 170;
-      var size = 6 + Math.random() * 20;
-      var dx = Math.cos(angle) * distance;
-      var dy = Math.sin(angle) * distance * 0.85;
-
-      var s = document.createElement('div');
-      s.className = 'splat';
-      s.style.width = size + 'px';
-      s.style.height = size + 'px';
-      s.style.marginLeft = (-size / 2) + 'px';
-      s.style.marginTop = (-size / 2) + 'px';
-      splashLayer.appendChild(s);
-
-      (function (el, tx, ty, delayMs) {
-        setTimeout(function () {
-          el.animate(
-            [
-              { transform: 'translate(0,0) scale(0.3)', opacity: 0 },
-              { transform: 'translate(' + (tx * 0.4) + 'px,' + (ty * 0.4) + 'px) scale(1.1)', opacity: 1, offset: 0.35 },
-              { transform: 'translate(' + tx + 'px,' + ty + 'px) scale(0.7)', opacity: 0 }
-            ],
-            { duration: 620, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' }
-          );
-        }, delayMs);
-      })(s, dx, dy, 10 + Math.random() * 40);
-    }
   }
 
-  // ── SCENE 1 — liquid intro ────────────────────────────────────────
-  function runIntro() {
-    if (prefersReducedMotion) {
-      stages.intro.style.background = 'var(--rose-liquid)';
-      setTimeout(function () { showStage('password'); startPassword(); }, 500);
-      return;
-    }
+}
 
-    runPaintSplash();
 
-    var gooLayer = document.getElementById('goo-layer');
-    var dropletCount = 9;
-    var maxDelay = 0;
+/* INTRO */
 
-    for (var i = 0; i < dropletCount; i++) {
-      var xPercent = 8 + Math.random() * 84;
-      var delay = i * 0.16 + Math.random() * 0.15;
-      var size = 20 + Math.random() * 18;
-      var fallDuration = 0.55 + Math.random() * 0.25;
-      var landY = 40 + Math.random() * 42;
-      maxDelay = Math.max(maxDelay, delay);
+function runIntro() {
 
-      var d = document.createElement('div');
-      d.className = 'droplet';
-      d.style.left = xPercent + '%';
-      d.style.top = landY + '%';
-      d.style.width = (size * 0.8) + 'px';
-      d.style.height = (size * 1.3) + 'px';
-      d.style.marginLeft = (-size * 0.4) + 'px';
-      d.style.marginTop = (-size * 0.65) + 'px';
-      d.style.transform = 'translateY(-100vh) scale(0.7,1.2)';
-      gooLayer.appendChild(d);
+  runPaintSplash();
 
-      (function (el, delayMs, durationMs) {
-        setTimeout(function () {
-          el.animate(
-            [
-              { transform: 'translateY(-100vh) scale(0.7,1.2)' },
-              { transform: 'translateY(0) scale(0.85,1.5)', offset: 0.6 },
-              { transform: 'translateY(0) scale(2.6,0.9)' }
-            ],
-            { duration: durationMs, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }
-          );
-        }, delayMs);
-      })(d, delay * 1000, (fallDuration + 0.5) * 1000);
-    }
 
-    // The flood: a central puddle rises and swallows the frame.
-    var flood = document.createElement('div');
-    flood.className = 'flood';
-    gooLayer.appendChild(flood);
-    setTimeout(function () {
+  var gooLayer =
+    document.getElementById('goo-layer');
+
+
+  for (
+    var i = 0;
+    i < 9;
+    i++
+  ) {
+
+    var x =
+      8 +
+      Math.random() * 84;
+
+    var size =
+      20 +
+      Math.random() * 18;
+
+    var landY =
+      40 +
+      Math.random() * 42;
+
+
+    var d =
+      document.createElement('div');
+
+    d.className =
+      'droplet';
+
+    d.style.left =
+      x + '%';
+
+    d.style.top =
+      landY + '%';
+
+    d.style.width =
+      size * 0.8 +
+      'px';
+
+    d.style.height =
+      size * 1.3 +
+      'px';
+
+    d.style.marginLeft =
+      (-size * 0.4) +
+      'px';
+
+    d.style.marginTop =
+      (-size * 0.65) +
+      'px';
+
+
+    gooLayer
+      .appendChild(d);
+
+
+    d.animate(
+      [
+        {
+          transform:
+            'translateY(-100vh) scale(.7,1.2)'
+        },
+
+        {
+          transform:
+            'translateY(0) scale(.85,1.5)'
+        },
+
+        {
+          transform:
+            'translateY(0) scale(2.6,.9)'
+        }
+      ],
+
+      {
+        duration:
+          900 +
+          Math.random() * 500,
+
+        delay:
+          i * 160,
+
+        easing:
+          'cubic-bezier(.4,0,.2,1)',
+
+        fill:
+          'forwards'
+      }
+    );
+
+  }
+
+
+  var flood =
+    document.createElement('div');
+
+  flood.className =
+    'flood';
+
+  gooLayer
+    .appendChild(flood);
+
+
+  setTimeout(
+    function () {
+
       flood.animate(
-        [{ transform: 'scale(0)' }, { transform: 'scale(0)', offset: 0.1 }, { transform: 'scale(40)' }],
-        { duration: 1300, easing: 'ease-in-out', fill: 'forwards' }
-      );
-    }, 1850);
+        [
+          {
+            transform:
+              'scale(0)'
+          },
 
-    // Solid backstop guarantees perfectly even final coverage.
-    var backstop = document.getElementById('backstop');
-    setTimeout(function () {
+          {
+            transform:
+              'scale(40)'
+          }
+        ],
+
+        {
+          duration: 1300,
+          fill: 'forwards'
+        }
+      );
+
+    },
+    1850
+  );
+
+
+  var backstop =
+    document.getElementById(
+      'backstop'
+    );
+
+
+  setTimeout(
+    function () {
+
       backstop.animate(
-        [{ opacity: 0 }, { opacity: 0, offset: 0.25 }, { opacity: 1 }],
-        { duration: 750, easing: 'ease-in-out', fill: 'forwards' }
+        [
+          {
+            opacity: 0
+          },
+
+          {
+            opacity: 1
+          }
+        ],
+
+        {
+          duration: 750,
+          fill: 'forwards'
+        }
       );
-    }, 2550);
 
-    setTimeout(function () {
-      showStage('password');
+    },
+    2550
+  );
+
+
+  setTimeout(
+    function () {
+
+      showStage(
+        'password'
+      );
+
       startPassword();
-    }, 3500);
-  }
 
-  // ── SCENE 2 — password ────────────────────────────────────────────
-  function startPassword() {
-    var input = document.getElementById('birthday-input');
-    var boxes = document.getElementById('digit-boxes');
-    var boxEls = boxes.querySelectorAll('.digit-box');
-    var card = document.getElementById('password-card');
-    var particlesWrap = document.getElementById('particles');
-    var locked = false;
+    },
+    3500
+  );
 
-    // Ambient floating particles
-    if (!prefersReducedMotion) {
-      for (var i = 0; i < 14; i++) {
-        var p = document.createElement('span');
-        p.className = 'particle';
-        var size = 3 + Math.random() * 5;
-        p.style.left = (Math.random() * 100) + '%';
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
-        p.style.animationDuration = (6 + Math.random() * 6) + 's';
-        p.style.animationDelay = (Math.random() * 6) + 's';
-        p.style.setProperty('--drift', (-20 + Math.random() * 40) + 'px');
-        particlesWrap.appendChild(p);
-      }
-    }
+}
 
-    requestAnimationFrame(function () {
-      card.classList.add('in');
+
+/* PASSWORD */
+
+function startPassword() {
+
+  var input =
+    document.getElementById(
+      'birthday-input'
+    );
+
+  var boxes =
+    document.getElementById(
+      'digit-boxes'
+    );
+
+  var boxEls =
+    boxes.querySelectorAll(
+      '.digit-box'
+    );
+
+  var card =
+    document.getElementById(
+      'password-card'
+    );
+
+
+  requestAnimationFrame(
+    function () {
+
+      card
+        .classList
+        .add('in');
+
       input.focus();
-    });
 
-    function renderDigits(value) {
-      for (var i = 0; i < boxEls.length; i++) {
-        boxEls[i].textContent = value[i] || '';
-        boxEls[i].classList.toggle('filled', Boolean(value[i]));
-      }
+    }
+  );
+
+
+  function renderDigits(value) {
+
+    for (
+      var i = 0;
+      i < boxEls.length;
+      i++
+    ) {
+
+      boxEls[i].textContent =
+        value[i] || '';
+
+      boxEls[i]
+        .classList
+        .toggle(
+          'filled',
+          Boolean(value[i])
+        );
+
     }
 
-    function reset() {
-      input.value = '';
-      renderDigits('');
-      boxes.classList.remove('wrong', 'shake');
-      locked = false;
-      input.focus();
-    }
-
-    input.addEventListener('input', function () {
-      if (locked) return;
-      var digits = input.value.replace(/\D/g, '').slice(0, 4);
-      input.value = digits;
-      renderDigits(digits);
-
-      if (digits.length < 4) return;
-
-      if (digits === BIRTHDAY_CODE) {
-        locked = true;
-        input.disabled = true;
-        boxes.classList.add('correct');
-        setTimeout(function () {
-          boxes.classList.add('unlocking');
-          card.classList.add('dissolving');
-          document.getElementById('stage-password').classList.add('unlocking');
-          setTimeout(function () {
-            showStage('transition');
-            runTransition();
-          }, prefersReducedMotion ? 350 : 1250);
-        }, 800);
-      } else {
-        locked = true;
-        boxes.classList.add('wrong', 'shake');
-        setTimeout(function () {
-          boxes.classList.remove('shake');
-          reset();
-        }, 620);
-      }
-    });
   }
 
-  // ── Bridge ─────────────────────────────────────────────────────────
-  function runTransition() {
-    setTimeout(function () {
-      showStage('video');
-      runVideo();
-    }, prefersReducedMotion ? 100 : 260);
-  }
 
-  // ── SCENE 3 + 4 — video + final message ─────────────────────────────
-  function runVideo() {
-    var video = document.getElementById('rose-video');
-    video.src = VIDEO_SRC;
+  input.addEventListener(
+    'input',
 
-    setTimeout(function () {
-      video.classList.add('visible');
-      video.play().catch(function () {
-        /* Autoplay can be blocked before a user gesture on some browsers;
-           the black frame simply remains until playback is allowed. */
-      });
-    }, 500);
+    function () {
 
-    video.addEventListener('ended', function () {
-      var holdMs = prefersReducedMotion ? 300 : 1500;
-      setTimeout(showFinalMessage, holdMs);
-    });
-  }
+      var digits =
+        input.value
+          .replace(/\D/g,'')
+          .slice(0,4);
 
-  function showFinalMessage() {
-    var heart = document.getElementById('final-heart');
-    var line1 = document.getElementById('final-line-1');
-    var line2 = document.getElementById('final-line-2');
-    var attract = document.getElementById('final-attract');
-    var proposal = document.getElementById('final-proposal');
-    var nextBtn = document.getElementById('next-btn');
-    var step = prefersReducedMotion ? 900 : 1900;
+      input.value =
+        digits;
 
-    line1.textContent = LINE_ONE;
-    line2.textContent = LINE_TWO;
-    attract.textContent = ATTRACT_LINE;
-    proposal.textContent = PROPOSAL_MESSAGE;
+      renderDigits(
+        digits
+      );
 
-    setTimeout(function () { heart.classList.add('visible'); }, 0);
-    setTimeout(function () { line1.classList.add('visible'); }, step * 0.3);
-    setTimeout(function () { line2.classList.add('visible'); }, step * 1.15);
-    setTimeout(function () { attract.classList.add('visible'); }, step * 2);
-    setTimeout(function () { proposal.classList.add('visible'); }, step * 2.85);
-    setTimeout(function () { nextBtn.classList.add('visible'); }, step * 3.6);
-  }
 
-  // ── SCENE 5 — chat invite, with a clingy exit button ────────────────
-  function initChatStage() {
-    var chatText = document.getElementById('chat-text');
-    var chatCard = document.getElementById('chat-card');
-    var btnChat = document.getElementById('btn-chat');
-    var btnExit = document.getElementById('btn-exit');
-    var hand = document.getElementById('hand-pointer');
-    var exitClicks = 0;
-    var MIN_SCALE = 0.28;
-
-    function setText(text) {
-      chatText.classList.add('fade');
-      setTimeout(function () {
-        chatText.textContent = text;
-        chatText.classList.remove('fade');
-      }, prefersReducedMotion ? 0 : 380);
-    }
-
-    function goToChat() {
-      requestAnimationFrame(function () { chatCard.classList.add('in'); });
-      exitClicks = 0;
-      chatText.textContent = CHAT_TEXT_DEFAULT;
-      chatText.classList.remove('fade');
-      btnExit.style.transform = 'scale(1)';
-      hand.classList.remove('visible');
-    }
-
-    btnChat.addEventListener('click', function () {
-      window.location.href = INSTAGRAM_URL;
-    });
-
-    btnExit.addEventListener('click', function () {
-      exitClicks++;
-
-      if (exitClicks === 1) {
-        setText(CHAT_TEXT_LEAVING);
+      if (
+        digits.length !== 4
+      ) {
         return;
       }
 
-      // From the second exit onward: the button shrinks and a hand
-      // nudges her toward the chat button instead.
-      var scale = Math.max(MIN_SCALE, 1 - (exitClicks - 1) * 0.16);
-      btnExit.style.transform = 'scale(' + scale + ')';
-      hand.classList.add('visible');
-    });
 
-    window.__initChatStage = goToChat;
+      if (
+        digits ===
+        BIRTHDAY_CODE
+      ) {
+
+        boxes
+          .classList
+          .add('correct');
+
+
+        setTimeout(
+          function () {
+
+            card
+              .classList
+              .add(
+                'dissolving'
+              );
+
+            document
+              .getElementById(
+                'stage-password'
+              )
+              .classList
+              .add(
+                'unlocking'
+              );
+
+
+            setTimeout(
+              function () {
+
+                showStage(
+                  'transition'
+                );
+
+                runTransition();
+
+              },
+              1250
+            );
+
+          },
+          800
+        );
+
+      }
+
+      else {
+
+        boxes
+          .classList
+          .add(
+            'wrong',
+            'shake'
+          );
+
+
+        setTimeout(
+          function () {
+
+            input.value =
+              '';
+
+            renderDigits(
+              ''
+            );
+
+            boxes
+              .classList
+              .remove(
+                'wrong',
+                'shake'
+              );
+
+          },
+          620
+        );
+
+      }
+
+    }
+
+  );
+
+}
+
+
+/* TRANSITION */
+
+function runTransition() {
+
+  setTimeout(
+    function () {
+
+      showStage(
+        'video'
+      );
+
+      runVideo();
+
+    },
+    260
+  );
+
+}
+
+
+/* VIDEO */
+
+function runVideo() {
+
+  var video =
+    document.getElementById(
+      'rose-video'
+    );
+
+
+  video.src =
+    VIDEO_SRC;
+
+
+  setTimeout(
+    function () {
+
+      video
+        .classList
+        .add(
+          'visible'
+        );
+
+      video
+        .play()
+        .catch(
+          function () {}
+        );
+
+    },
+    500
+  );
+
+
+  video.addEventListener(
+    'ended',
+
+    function () {
+
+      setTimeout(
+        showFinalMessage,
+        1500
+      );
+
+    },
+
+    {
+      once: true
+    }
+
+  );
+
+}
+
+
+/* FINAL MESSAGE */
+
+function showFinalMessage() {
+
+  var heart =
+    document.getElementById(
+      'final-heart'
+    );
+
+  var line1 =
+    document.getElementById(
+      'final-line-1'
+    );
+
+  var line2 =
+    document.getElementById(
+      'final-line-2'
+    );
+
+  var attract =
+    document.getElementById(
+      'final-attract'
+    );
+
+  var proposal =
+    document.getElementById(
+      'final-proposal'
+    );
+
+  var nextBtn =
+    document.getElementById(
+      'next-btn'
+    );
+
+
+  line1.textContent =
+    LINE_ONE;
+
+  line2.textContent =
+    LINE_TWO;
+
+  attract.textContent =
+    ATTRACT_LINE;
+
+  proposal.textContent =
+    PROPOSAL_MESSAGE;
+
+
+  heart
+    .classList
+    .add(
+      'visible'
+    );
+
+
+  setTimeout(
+    function () {
+      line1
+        .classList
+        .add(
+          'visible'
+        );
+    },
+    600
+  );
+
+
+  setTimeout(
+    function () {
+      line2
+        .classList
+        .add(
+          'visible'
+        );
+    },
+    1800
+  );
+
+
+  setTimeout(
+    function () {
+      attract
+        .classList
+        .add(
+          'visible'
+        );
+    },
+    3000
+  );
+
+
+  setTimeout(
+    function () {
+      proposal
+        .classList
+        .add(
+          'visible'
+        );
+    },
+    4200
+  );
+
+
+  setTimeout(
+    function () {
+      nextBtn
+        .classList
+        .add(
+          'visible'
+        );
+    },
+    5500
+  );
+
+}
+
+
+/* CHAT */
+
+var nextBtn =
+  document.getElementById(
+    'next-btn'
+  );
+
+
+nextBtn.addEventListener(
+  'click',
+
+  function () {
+
+    showStage(
+      'chat'
+    );
+
+
+    var chatCard =
+      document.getElementById(
+        'chat-card'
+      );
+
+
+    var chatText =
+      document.getElementById(
+        'chat-text'
+      );
+
+
+    chatText.textContent =
+      CHAT_TEXT_DEFAULT;
+
+
+    requestAnimationFrame(
+      function () {
+
+        chatCard
+          .classList
+          .add(
+            'in'
+          );
+
+      }
+    );
+
   }
 
-  document.getElementById('next-btn').addEventListener('click', function () {
-    showStage('chat');
-    if (window.__initChatStage) window.__initChatStage();
-  });
+);
 
-  initChatStage();
-  runIntro();
+
+/* CHAT BUTTON */
+
+document
+  .getElementById(
+    'btn-chat'
+  )
+  .addEventListener(
+    'click',
+
+    function () {
+
+      window.location.href =
+        INSTAGRAM_URL;
+
+    }
+
+  );
+
+
+/* EXIT BUTTON */
+
+var exitClicks =
+  0;
+
+
+document
+  .getElementById(
+    'btn-exit'
+  )
+  .addEventListener(
+    'click',
+
+    function () {
+
+      exitClicks++;
+
+
+      var chatText =
+        document.getElementById(
+          'chat-text'
+        );
+
+
+      if (
+        exitClicks === 1
+      ) {
+
+        chatText.textContent =
+          CHAT_TEXT_LEAVING;
+
+        return;
+
+      }
+
+
+      var scale =
+        Math.max(
+          0.28,
+          1 -
+          (exitClicks - 1)
+          * 0.16
+        );
+
+
+      this.style.transform =
+        'scale(' +
+        scale +
+        ')';
+
+    }
+
+  );
+
+
+runIntro();
+
 })();
 </script>
+
 </body>
 </html>
